@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Toolbox.Database;
 using Toolbox.Repository;
+using System.Configuration;
 
 namespace Demo_ASP_Image.DAL.Repositories
 {
@@ -16,7 +17,7 @@ namespace Demo_ASP_Image.DAL.Repositories
 
         public ImageDataRepository()
         {
-            DB = new ConnectDB("ConnectionString");
+            DB = new ConnectDB(ConfigurationManager.ConnectionStrings["db-source"].ConnectionString);
         }
 
 
