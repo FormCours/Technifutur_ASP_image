@@ -2,6 +2,7 @@
 using Demo_ASP_Image.WebApp.ServiceData;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -38,7 +39,7 @@ namespace Demo_ASP_Image.WebApp.Controllers
             ImageData data = new ImageData()
             {
                 OriginalName = fileName + fileExt,
-                ImagePath = "/Content/UploadImages/" + internalName
+                ImagePath = ConfigurationManager.AppSettings["UploadImagePath"] + internalName
             };
 
             // Save file into server
