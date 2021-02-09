@@ -20,26 +20,22 @@ namespace Demo_ASP_Image.WebApp.Controllers
 
         public ActionResult UploadImage()
         {
-            return View(new ImageSource());
+            return View(new ImageSourceNew());
         }
 
         [HttpPost]
-        public ActionResult UploadImage(ImageSource source)
+        public ActionResult UploadImage(ImageSourceNew source)
         {
             if (!ModelState.IsValid)
             {
                 return View(source);
             }
 
-            string fileName = Path.GetFileNameWithoutExtension(source.ImageFile.FileName).Trim();
-            string fileExt = Path.GetExtension(source.ImageFile.FileName);
-            string uniqueValue = Math.Abs(Guid.NewGuid().GetHashCode() % 100000).ToString("D5");
-
-            string internalName = DateTime.Now.ToString($"yyyyMMdd_hhmmss") + "_" + fileName + "_" + uniqueValue + fileExt;
+            string fileLocation = GenerateInternalFilName(source.ImageFile);
             ImageData data = new ImageData()
             {
-                OriginalName = fileName + fileExt,
-                ImagePath = ConfigurationManager.AppSettings["UploadImagePath"] + internalName, 
+                OriginalName = Path.GetFileName(source.ImageFile.FileName),
+                ImagePath = fileLocation,
                 Description = source.Description
             };
 
@@ -51,6 +47,16 @@ namespace Demo_ASP_Image.WebApp.Controllers
             ImageDataService.Instance.Insert(data);
 
             return RedirectToAction(nameof(Index), "Home");
+        }
+
+        private string GenerateInternalFilName(HttpPostedFileBase file)
+        {
+            string fileName = Path.GetFileNameWithoutExtension(file.FileName).Trim();
+            string fileExt = Path.GetExtension(file.FileName);
+            string uniqueValue = Math.Abs(Guid.NewGuid().GetHashCode() % 100000).ToString("D5");
+
+            string internalName = DateTime.Now.ToString($"yyyyMMdd_hhmmss") + "_" + fileName + "_" + uniqueValue + fileExt;
+            return ConfigurationManager.AppSettings["UploadImagePath"] + internalName;
         }
 
         public ActionResult Images()
@@ -67,7 +73,7 @@ namespace Demo_ASP_Image.WebApp.Controllers
             return View(image);
         }
 
-        public ActionResult DeleteImage(Guid id)
+        public ActionResult Delete(Guid id)
         {
             // Get image info
             ImageData data = ImageDataService.Instance.Get(id);
@@ -83,5 +89,51 @@ namespace Demo_ASP_Image.WebApp.Controllers
             return RedirectToAction(nameof(Images));
         }
 
+        public ActionResult Update(Guid id)
+        {
+            ImageData data = ImageDataService.Instance.Get(id);
+
+            ImageSourceUpdate sourceUpdate = new ImageSourceUpdate()
+            {
+                OriginalName = data.OriginalName,
+                Description = data.Description
+            };
+            return View(sourceUpdate);
+        }
+
+        [HttpPost]
+        public ActionResult Update(Guid id, ImageSourceUpdate source)
+        { 
+            if(!ModelState.IsValid)
+            {
+                return View(source);
+            }
+            
+            ImageData oldData = ImageDataService.Instance.Get(id);
+
+            string newImage = null;
+            if(source.ImageFile != null)
+            {
+                // Delete old image
+                string oldImage = HostingEnvironment.MapPath(oldData.ImagePath);
+                if (System.IO.File.Exists(oldImage))
+                    System.IO.File.Delete(oldImage);
+
+                // Save new image
+                newImage = GenerateInternalFilName(source.ImageFile);
+                source.ImageFile.SaveAs(HostingEnvironment.MapPath(newImage));
+            }
+
+            // Update row in Database
+            ImageData newData = new ImageData()
+            {
+                OriginalName = source.OriginalName,
+                ImagePath = newImage ?? oldData.ImagePath,
+                Description = source.Description
+            };
+            ImageDataService.Instance.Update(id, newData);
+
+            return RedirectToAction(nameof(Image), new { id = id });
+        }
     }
 }

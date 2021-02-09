@@ -63,11 +63,11 @@ namespace Demo_ASP_Image.DAL.Repositories
         public bool Update(Guid id, ImageData entity)
         {
             QueryDB query = new QueryDB("UPDATE [ImageData]" +
-                                        " SET [OriginalName] = @OriginalName" +
-                                        "     [ImagePath] = @ImagePath" +
+                                        " SET [OriginalName] = @OriginalName," +
+                                        "     [ImagePath] = @ImagePath," +
                                         "     [Description] = @Description" +
                                         " WHERE [Id] = @Id");
-            query.AddParametre("Id", entity.Id);
+            query.AddParametre("Id", id);
             query.AddParametre("OriginalName", entity.OriginalName);
             query.AddParametre("ImagePath", entity.ImagePath);
             query.AddParametre("Description", entity.Description);

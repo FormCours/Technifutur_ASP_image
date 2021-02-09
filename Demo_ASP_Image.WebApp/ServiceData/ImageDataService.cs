@@ -41,6 +41,11 @@ namespace Demo_ASP_Image.WebApp.ServiceData
             return repo.GetAll().Select(elem => elem.ToClient());
         }
 
+        public void Update(Guid id, ImageData data)
+        {
+            repo.Update(id, data.ToGlobal());
+        }
+
         public void Delete(Guid id)
         {
             repo.Delete(id);
