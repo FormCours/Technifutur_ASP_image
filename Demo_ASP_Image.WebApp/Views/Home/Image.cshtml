@@ -1,0 +1,16 @@
+﻿@model Demo_ASP_Image.WebApp.Models.ImageData
+@using System.Web.Hosting
+
+@{
+   ViewBag.Title = "Image";
+}
+
+<h2>Image</h2>
+
+<div>
+   <h4>ImageData</h4>
+   <hr />
+   <h2>@Html.DisplayFor(model => model.OriginalName)</h2>
+
+   <img src="@Model.ImagePath" alt="@Model.OriginalName" />
+</div>

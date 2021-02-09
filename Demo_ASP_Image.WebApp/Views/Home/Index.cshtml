@@ -1,4 +1,7 @@
 ﻿@{
-    ViewBag.Title = "Index";
+   ViewBag.Title = "Index";
 }
 
+@Html.ActionLink("Upload Image", "UploadImage", "Home", new { @class = "btn btn-primary" })
+
+@Html.ActionLink("View Images", "Images", "Home", new { @class = "btn btn-success" })

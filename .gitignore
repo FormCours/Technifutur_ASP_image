@@ -338,3 +338,6 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+
+# Image upload by user
+/Demo_ASP_Image.WebApp/Content/UploadImages

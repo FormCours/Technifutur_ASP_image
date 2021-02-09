@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Demo_ASP_Image.WebApp.Models.ImageData>
+
+@{
+    ViewBag.Title = "Images";
+}
+
+<h2>Images</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.OriginalName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.OriginalName)
+        </td>
+        <td>
+            @Html.ActionLink("Detail", "Image", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
