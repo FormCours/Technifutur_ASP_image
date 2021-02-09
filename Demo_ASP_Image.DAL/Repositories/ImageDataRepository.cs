@@ -27,7 +27,8 @@ namespace Demo_ASP_Image.DAL.Repositories
             {
                 Id = Guid.Parse(dataReader["Id"].ToString()),
                 OriginalName = dataReader["OriginalName"].ToString(),
-                ImagePath = dataReader["ImagePath"].ToString()
+                ImagePath = dataReader["ImagePath"].ToString(),
+                Description = dataReader["Description"] is DBNull ? null : dataReader["Description"].ToString()
             };
         }
 
@@ -48,11 +49,12 @@ namespace Demo_ASP_Image.DAL.Repositories
 
         public Guid Insert(ImageData entity)
         {
-            QueryDB query = new QueryDB("INSERT INTO [ImageData] ([OriginalName], [ImagePath])" +
+            QueryDB query = new QueryDB("INSERT INTO [ImageData] ([OriginalName], [ImagePath], [Description])" +
                                         " OUTPUT Inserted.Id" +
-                                        " VALUES (@OriginalName, @ImagePath)");
+                                        " VALUES (@OriginalName, @ImagePath, @Description)");
             query.AddParametre("OriginalName", entity.OriginalName);
             query.AddParametre("ImagePath", entity.ImagePath);
+            query.AddParametre("Description", entity.Description);
 
             string id = DB.ExecuteScalar(query).ToString();
             return Guid.Parse(id);
@@ -63,10 +65,12 @@ namespace Demo_ASP_Image.DAL.Repositories
             QueryDB query = new QueryDB("UPDATE [ImageData]" +
                                         " SET [OriginalName] = @OriginalName" +
                                         "     [ImagePath] = @ImagePath" +
+                                        "     [Description] = @Description" +
                                         " WHERE [Id] = @Id");
             query.AddParametre("Id", entity.Id);
             query.AddParametre("OriginalName", entity.OriginalName);
             query.AddParametre("ImagePath", entity.ImagePath);
+            query.AddParametre("Description", entity.Description);
 
             int nbRow = DB.ExecuteNonQuery(query);
             return nbRow == 1;

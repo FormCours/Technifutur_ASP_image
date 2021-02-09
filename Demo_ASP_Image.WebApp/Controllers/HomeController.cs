@@ -39,7 +39,8 @@ namespace Demo_ASP_Image.WebApp.Controllers
             ImageData data = new ImageData()
             {
                 OriginalName = fileName + fileExt,
-                ImagePath = ConfigurationManager.AppSettings["UploadImagePath"] + internalName
+                ImagePath = ConfigurationManager.AppSettings["UploadImagePath"] + internalName, 
+                Description = source.Description
             };
 
             // Save file into server

@@ -5,9 +5,11 @@
    ViewBag.Title = "Image";
 }
 
-<h2>Detail de l'image</h2>
-
-<h3>@Html.DisplayFor(model => model.OriginalName)</h3>
+<h2>@Html.DisplayFor(model => model.OriginalName)</h2>
+@if (!string.IsNullOrWhiteSpace(Model.Description))
+{
+   <p>@Html.DisplayFor(model => model.Description)</p>
+}
 
 <div>
    <img src="@Url.Content(Model.ImagePath)" alt="@Model.OriginalName" height="400" />

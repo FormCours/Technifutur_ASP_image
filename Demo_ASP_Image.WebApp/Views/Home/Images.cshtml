@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Demo_ASP_Image.WebApp.Models.ImageData>
 
 @{
-    ViewBag.Title = "Images";
+   ViewBag.Title = "Images";
 }
 
 <h2>Liste des images enregistrées</h2>
@@ -11,19 +11,26 @@
       <th>
          @Html.DisplayNameFor(model => model.OriginalName)
       </th>
+      <th>
+         @Html.DisplayNameFor(model => model.Description)
+      </th>
       <th></th>
    </tr>
 
-@foreach (var item in Model) {
-<tr>
-   <td>
-      @Html.DisplayFor(modelItem => item.OriginalName)
-   </td>
-   <td>
-      @Html.ActionLink("Detail", "Image", new { id = item.Id }, new { @class = "btn btn-info" })
-      @Html.ActionLink("Supprimer", "DeleteImage", new { id = item.Id }, new { @class = "btn btn-danger" })
-   </td>
-</tr>
-}
+   @foreach (var item in Model)
+   {
+      <tr>
+         <td>
+            @Html.DisplayFor(modelItem => item.OriginalName)
+         </td>
+         <td>
+            @Html.DisplayFor(modelItem => item.Description)
+         </td>
+         <td>
+            @Html.ActionLink("Detail", "Image", new { id = item.Id }, new { @class = "btn btn-info" })
+            @Html.ActionLink("Supprimer", "DeleteImage", new { id = item.Id }, new { @class = "btn btn-danger" })
+         </td>
+      </tr>
+   }
 
 </table>

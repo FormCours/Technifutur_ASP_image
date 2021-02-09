@@ -14,5 +14,8 @@ namespace Demo_ASP_Image.WebApp.Models
         [Required]
         [DisplayName("Image")]
         public HttpPostedFileBase ImageFile { get; set; }
+
+        [DisplayName("Description")]
+        public string Description { get; set; }
     }
 }

@@ -16,7 +16,8 @@ namespace Demo_ASP_Image.WebApp.Mappers
             {
                 Id = global.Id,
                 OriginalName = global.OriginalName,
-                ImagePath = global.ImagePath
+                ImagePath = global.ImagePath,
+                Description = global.Description
             };
         }
 
@@ -26,7 +27,8 @@ namespace Demo_ASP_Image.WebApp.Mappers
             {
                 Id = client.Id,
                 OriginalName = client.OriginalName,
-                ImagePath = client.ImagePath
+                ImagePath = client.ImagePath,
+                Description = client.Description
             };
         }
     }

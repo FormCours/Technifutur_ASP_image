@@ -17,5 +17,9 @@ namespace Demo_ASP_Image.WebApp.Models
 
         [DisplayName("Image")]
         public string ImagePath { get; set; }
+
+        [DisplayName("Description")]
+        [DisplayFormat(NullDisplayText = "Pas de description...")]
+        public string Description { get; set; }
     }
 }

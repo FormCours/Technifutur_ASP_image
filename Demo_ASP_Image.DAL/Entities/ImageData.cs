@@ -14,5 +14,7 @@ namespace Demo_ASP_Image.DAL.Entities
         public string OriginalName { get; set; }
 
         public string ImagePath { get; set; }
+
+        public string Description { get; set; }
     }
 }
