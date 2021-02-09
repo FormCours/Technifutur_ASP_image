@@ -40,5 +40,10 @@ namespace Demo_ASP_Image.WebApp.ServiceData
         {
             return repo.GetAll().Select(elem => elem.ToClient());
         }
+
+        public void Delete(Guid id)
+        {
+            repo.Delete(id);
+        }
     }
 }

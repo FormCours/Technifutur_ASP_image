@@ -16,7 +16,7 @@ namespace Demo_ASP_Image.WebApp.Controllers
         {
             return View();
         }
-    
+
         public ActionResult UploadImage()
         {
             return View(new ImageSource());
@@ -25,7 +25,7 @@ namespace Demo_ASP_Image.WebApp.Controllers
         [HttpPost]
         public ActionResult UploadImage(ImageSource source)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(source);
             }
@@ -64,5 +64,22 @@ namespace Demo_ASP_Image.WebApp.Controllers
 
             return View(image);
         }
+
+        public ActionResult DeleteImage(Guid id)
+        {
+            // Get image info
+            ImageData data = ImageDataService.Instance.Get(id);
+            string imageLocation = HostingEnvironment.MapPath(data.ImagePath);
+
+            // Delete file
+            if (System.IO.File.Exists(imageLocation))
+                System.IO.File.Delete(imageLocation);
+
+            // Delete row in Database
+            ImageDataService.Instance.Delete(id);
+
+            return RedirectToAction(nameof(Images));
+        }
+
     }
 }
