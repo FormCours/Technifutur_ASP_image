@@ -12,6 +12,8 @@ namespace Demo_ASP_Image.WebApp.Mappers
     {
         public static C.ImageData ToClient(this G.ImageData global)
         {
+            if (global is null) return null;
+
             return new C.ImageData()
             {
                 Id = global.Id,
@@ -23,6 +25,8 @@ namespace Demo_ASP_Image.WebApp.Mappers
 
         public static G.ImageData ToGlobal(this C.ImageData client)
         {
+            if (client is null) return null;
+
             return new G.ImageData()
             {
                 Id = client.Id,

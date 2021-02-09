@@ -66,32 +66,51 @@ namespace Demo_ASP_Image.WebApp.Controllers
             return View(images);
         }
 
-        public ActionResult Image(Guid id)
+        public ActionResult Image(Guid? id)
         {
-            ImageData image = ImageDataService.Instance.Get(id);
+            if (id is null)
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
 
+            ImageData image = ImageDataService.Instance.Get((Guid)id);
+
+            if (image is null)
+                return HttpNotFound();
             return View(image);
         }
 
-        public ActionResult Delete(Guid id)
+        public ActionResult Delete(Guid? id)
         {
+            if (id is null)
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+
             // Get image info
-            ImageData data = ImageDataService.Instance.Get(id);
-            string imageLocation = HostingEnvironment.MapPath(data.ImagePath);
+            ImageData data = ImageDataService.Instance.Get((Guid)id);
+
+            // Manage wrong id
+            if (data is null)
+                return HttpNotFound();
 
             // Delete file
+            string imageLocation = HostingEnvironment.MapPath(data.ImagePath);
             if (System.IO.File.Exists(imageLocation))
                 System.IO.File.Delete(imageLocation);
 
             // Delete row in Database
-            ImageDataService.Instance.Delete(id);
+            ImageDataService.Instance.Delete((Guid)id);
 
             return RedirectToAction(nameof(Images));
         }
 
-        public ActionResult Update(Guid id)
+        public ActionResult Update(Guid? id)
         {
-            ImageData data = ImageDataService.Instance.Get(id);
+            if (id is null)
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+
+            ImageData data = ImageDataService.Instance.Get((Guid)id);
+
+            // Manage wrong id
+            if (data is null)
+                return HttpNotFound();
 
             ImageSourceUpdate sourceUpdate = new ImageSourceUpdate()
             {
@@ -102,17 +121,25 @@ namespace Demo_ASP_Image.WebApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult Update(Guid id, ImageSourceUpdate source)
-        { 
-            if(!ModelState.IsValid)
+        public ActionResult Update(Guid? id, ImageSourceUpdate source)
+        {
+            if (id is null)
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+
+            if (!ModelState.IsValid)
             {
                 return View(source);
             }
-            
-            ImageData oldData = ImageDataService.Instance.Get(id);
 
+            ImageData oldData = ImageDataService.Instance.Get((Guid)id);
+
+            // Manage wrong id
+            if (oldData is null)
+                return HttpNotFound();
+
+            // Manage image file
             string newImage = null;
-            if(source.ImageFile != null)
+            if (source.ImageFile != null)
             {
                 // Delete old image
                 string oldImage = HostingEnvironment.MapPath(oldData.ImagePath);
@@ -131,7 +158,7 @@ namespace Demo_ASP_Image.WebApp.Controllers
                 ImagePath = newImage ?? oldData.ImagePath,
                 Description = source.Description
             };
-            ImageDataService.Instance.Update(id, newData);
+            ImageDataService.Instance.Update((Guid)id, newData);
 
             return RedirectToAction(nameof(Image), new { id = id });
         }
