@@ -4,14 +4,13 @@
     ViewBag.Title = "Images";
 }
 
-<h2>Images</h2>
+<h2>Liste des images enregistrées</h2>
 
 <table class="table">
    <tr>
       <th>
          @Html.DisplayNameFor(model => model.OriginalName)
       </th>
-      <th></th>
       <th></th>
    </tr>
 
@@ -21,10 +20,8 @@
       @Html.DisplayFor(modelItem => item.OriginalName)
    </td>
    <td>
-      @Html.ActionLink("Detail", "Image", new { id = item.Id })
-   </td>
-   <td>
-      @Html.ActionLink("Supprimer", "DeleteImage", new { id = item.Id })
+      @Html.ActionLink("Detail", "Image", new { id = item.Id }, new { @class = "btn btn-info" })
+      @Html.ActionLink("Supprimer", "DeleteImage", new { id = item.Id }, new { @class = "btn btn-danger" })
    </td>
 </tr>
 }
