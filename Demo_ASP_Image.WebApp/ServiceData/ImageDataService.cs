@@ -4,7 +4,6 @@ using Demo_ASP_Image.WebApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace Demo_ASP_Image.WebApp.ServiceData
 {

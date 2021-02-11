@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-using C = Demo_ASP_Image.WebApp.Models;
+﻿using C = Demo_ASP_Image.WebApp.Models;
 using G = Demo_ASP_Image.DAL.Entities;
 
 namespace Demo_ASP_Image.WebApp.Mappers
